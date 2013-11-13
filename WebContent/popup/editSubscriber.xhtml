@@ -1,0 +1,88 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:a4j="http://richfaces.org/a4j">
+
+<ui:composition >
+	
+			<rich:popupPanel id="popupEditSubscriber" modal="true"
+				autosized="true" resizeable="false">
+				<div align="center">
+
+					<f:facet name="header">
+						Subscriber details
+					</f:facet>
+
+					<h:form id="formEditSubscriber">
+
+						<h:panelGrid id="gridEditSubscriber" columns="3">
+
+							<h:outputText value="Nickname:" />
+							<rich:inplaceInput id="editNickname" required="true"
+								value="#{maintainSubscribers.subscriberEdit.nickName}"
+								styleClass="inplaceInputAncho">
+								<f:validateLength minimum="4" maximum="20" />
+							</rich:inplaceInput>
+							<rich:message for="editNickname" styleClass="error" />
+
+							<h:outputText value="Realname:" />
+							<rich:inplaceInput id="editRealname"
+								value="#{maintainSubscribers.subscriberEdit.realName}"
+								styleClass="inplaceInputAncho">
+								<f:validateLength maximum="100" />
+							</rich:inplaceInput>
+							<rich:message for="editRealname" styleClass="error" />
+
+							<h:outputText value="RIC:" />
+							<rich:inplaceInput id="editRIC" required="true"
+								value="#{maintainSubscribers.subscriberEdit.RIC}"
+								styleClass="inplaceInputAncho" />
+							<rich:message for="editRIC" styleClass="error" />
+
+							<h:outputText value="Frequency:" />
+							<rich:inputNumberSlider required="true" id="editFrequency"
+								value="#{maintainSubscribers.subscriberEdit.frequency}"
+								minValue="100000000" maxValue="500000000" step="1000"
+								showArrows="true" showTooltip="false" enableManualInput="true" />
+							<rich:message for="editFrequency" styleClass="error" />
+
+							<h:outputText value="Bauds" />
+							<h:selectOneRadio id="editBauds" required="true"
+								value="#{maintainSubscribers.subscriberEdit.bauds}">
+								<f:selectItem itemValue="2400" itemLabel="2400" />
+								<f:selectItem itemValue="1200" itemLabel="1200" />
+								<f:selectItem itemValue="512" itemLabel="512" />
+							</h:selectOneRadio>
+							<rich:message for="editBauds" styleClass="error" />
+
+						</h:panelGrid>
+
+						<a4j:commandLink action="#{maintainSubscribers.editSubscriber}"
+							immediate="false"
+							oncomplete="if (#{!facesContext.validationFailed}) {#{rich:component('popupEditSubscriber')}.hide(); #{rich:component('popupMessage')}.show();}"
+							render="subscribers message" value="Edit"
+							rendered="#{maintainSubscribers.popupEditMode}" />
+
+						<a4j:commandLink action="#{maintainSubscribers.createSubscriber}"
+							immediate="false"
+							oncomplete="if (#{!facesContext.validationFailed}) {#{rich:component('popupEditSubscriber')}.hide(); #{rich:component('popupMessage')}.show();}"
+							render="subscribers message" value="Create"
+							rendered="#{!maintainSubscribers.popupEditMode}" />
+
+						<h:outputText value=" " />
+						<h:commandLink value="Cancel">
+							<rich:componentControl target="popupEditSubscriber"
+								operation="hide" />
+						</h:commandLink>
+					</h:form>
+
+				</div>
+			</rich:popupPanel>
+
+</ui:composition>
+</html>

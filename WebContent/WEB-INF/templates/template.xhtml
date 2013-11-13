@@ -1,0 +1,58 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+          "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:a4j="http://richfaces.org/a4j">
+
+
+
+<h:head>
+	<h:outputStylesheet name="css/styles.css"></h:outputStylesheet>
+	
+	<title><ui:insert name="titulo">Osomcom POCSAG MSC</ui:insert></title>
+
+	<c:if test="${!empty urlRedireccion}">
+		<meta http-equiv="Refresh" content="10;url=#{urlRedireccion}" />
+	</c:if>
+
+</h:head>
+
+<h:body>
+	<div id="contenedor">
+		<div id="cabecera">
+			<ui:insert name="cabecera">
+				<ui:include src="header.xhtml" />
+			</ui:insert>
+		</div>
+
+
+		<div id="cuerpo">
+
+
+			<div align="center" class="menu">
+				<ui:include src="lateralMenu.xhtml" />
+			</div>
+
+
+
+			<div align="center" class="contenidos">
+				<ui:insert name="cuerpo" />
+			</div>
+
+
+		</div>
+	</div>
+	<div id="pie">
+		<ui:insert name="pie">
+			<ui:include src="footer.xhtml" />
+		</ui:insert>
+	</div>
+
+</h:body>
+
+
+</html>

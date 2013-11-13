@@ -1,0 +1,61 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:a4j="http://richfaces.org/a4j">
+
+<ui:composition >	
+
+			<rich:popupPanel id="popupEditGroups" modal="true" autosized="true"
+				resizeable="false">
+				<div align="center">
+
+					<f:facet name="header">
+						Subscribers Groups  details
+					</f:facet>
+
+					<h:form id="formEditGroups">
+
+						<rich:dataTable value="#{maintainSubscribers.groupList}"
+							id="groups" var="group" rows="25">
+
+							<rich:column width="10em">
+								<f:facet name="header">
+									<h:outputText value="Name" />
+								</f:facet>
+								<h:outputText value="#{group.name}" />
+							</rich:column>
+
+							<rich:column width="10em">
+								<f:facet name="header">
+									<h:outputText value="Is Member?" />
+								</f:facet>
+
+								<h:selectBooleanCheckbox value="#{group.member}" />
+
+							</rich:column>
+
+						</rich:dataTable>
+						<rich:dataScroller id="scrollerTableGroups" for="groups"
+							render="groups" renderIfSinglePage="false"/>
+
+						<a4j:commandLink action="#{maintainSubscribers.changeSubscriberGroupsMembership}"
+							oncomplete="if (#{!facesContext.validationFailed}) {#{rich:component('popupEditGroups')}.hide(); #{rich:component('popupMessage')}.show();}"
+							render="message" value="Edit" />
+							
+						<h:outputText value=" " />
+
+						<h:commandLink value="Close">
+							<rich:componentControl target="popupEditGroups" operation="hide" />
+						</h:commandLink>
+					</h:form>
+
+				</div>
+			</rich:popupPanel>
+
+</ui:composition>
+</html>

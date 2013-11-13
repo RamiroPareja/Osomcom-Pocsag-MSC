@@ -1,0 +1,121 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:a4j="http://richfaces.org/a4j">
+
+<ui:composition template="WEB-INF/templates/template.xhtml">
+	<ui:define name="titulo">
+		<h:outputText value="Osomcom POCSAG MSC - Maintain Subscribers Groups" />
+	</ui:define>
+	<ui:define name="cuerpo">
+	
+		<f:event type="preRenderView" listener="#{maintainSubscribersGroups.loadSubscribersGroups}"/>
+		
+		<div align="center" class="poscentro">
+			<h1>
+				<h:outputText value="Maintain Subscribers Groups" />
+			</h1>
+			
+			<ui:include src="popup/message.xhtml"/>
+			<ui:include src="popup/editSubscribersGroup.xhtml"/>
+			<ui:include src="popup/viewSubscribers.xhtml"/>
+						
+			<h:form id="maintainForm">
+								
+				<rich:panel header="Subscribers Groups">
+
+					<br />
+
+					
+					<h:panelGroup>
+					<rich:dataTable value="#{maintainSubscribersGroups.subscribersGroupList}"
+						id="subscribersGroups" var="subscribersGroup" rows="12">
+
+						<rich:column width="10em">
+							<f:facet name="header">
+								<h:outputText value="Name" />
+							</f:facet>
+							<h:outputText value="#{subscribersGroup.name}" />
+						</rich:column>
+						
+						
+						<rich:column width="10em">
+							<f:facet name="header">
+								<h:outputText value="Description" />
+							</f:facet>
+							<h:outputText value="#{subscribersGroup.description}" />
+						</rich:column>							
+
+						<rich:column>							
+							<a4j:commandLink action="#{maintainSubscribersGroups.loadSubscribers}"
+								immediate="true" render="formViewSubscribers"
+								oncomplete="#{rich:component('popupViewSubscribers')}.show()">								
+								<f:param name="id" value="#{subscribersGroup.id}" />
+								<h:graphicImage style="border:0; height:16px; width:16px;" library="images"
+									name="subscribersgroup-icon.png" title="Edit subscribers group"/>
+							</a4j:commandLink>
+						</rich:column>
+
+						<rich:column>
+							<h:commandLink action="sendMessage">
+								<f:param name="preload" value="group" />
+								<f:param name="id" value="#{subscribersGroup.id}" />
+								<h:graphicImage style="border:0; height:16px; width:16px;" library="images"
+									name="message-icon.png" title="Send message to all the subscribers of the group"/>
+							</h:commandLink>
+						</rich:column>
+						
+
+
+						<rich:column>							
+							<a4j:commandLink action="#{maintainSubscribersGroups.loadSubscribersGroupToEdit}"
+								immediate="true" render="formEditSubscribersGroup"
+								oncomplete="#{rich:component('popupEditSubscribersGroup')}.show()">								
+								<f:param name="id" value="#{subscribersGroup.id}" />
+								<h:graphicImage style="border:0; height:16px; width:16px;" library="images"
+									name="edit-icon.png" title="Edit subscribers group"/>
+							</a4j:commandLink>
+						</rich:column>
+
+						<rich:column>
+							<h:commandLink action="#{maintainSubscribersGroups.deleteSubscribersGroup}">
+								<f:param name="id" value="#{subscribersGroup.id}" />
+								<h:graphicImage style="border:0; height:16px; width:16px;" library="images"
+									name="delete-icon.png" title="Delete subscribers group"/>
+							</h:commandLink>
+						</rich:column>
+
+
+					</rich:dataTable>
+					<rich:dataScroller id="scrollerTableSubscribersGroups" for="subscribersGroups" render="subscribersGroups"/>
+					</h:panelGroup>
+					<br/>
+					<br/>
+
+					<a4j:commandButton action="#{maintainSubscribersGroups.loadSubscribersGroupToCreate}"
+								immediate="true" render="formEditSubscribersGroup"
+								oncomplete="#{rich:component('popupEditSubscribersGroup')}.show()" 
+								value="New Subscribers Group"/>
+					
+
+				</rich:panel>
+
+
+
+				<p>
+					<h:messages class="error" globalOnly="true" />
+				</p>
+
+
+			</h:form>
+		</div>
+		<br />
+
+	</ui:define>
+</ui:composition>
+</html>

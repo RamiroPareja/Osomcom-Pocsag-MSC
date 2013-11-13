@@ -1,0 +1,67 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:a4j="http://richfaces.org/a4j">
+
+<ui:composition >
+	
+			<rich:popupPanel id="popupEditNode" modal="true" autosized="true"
+				resizeable="false">
+				<div align="center">
+
+					<f:facet name="header">
+						Node details
+					</f:facet>
+
+					<h:form id="formEditNode">
+
+						<h:panelGrid id="gridEditNode" columns="3">
+
+							<h:outputText value="Name:" />
+							<rich:inplaceInput id="editName" required="true" value="#{maintainNodes.nodeEdit.name}" styleClass="inplaceInputAncho">
+								<f:validateLength minimum="4" maximum="40"/>
+							</rich:inplaceInput>							
+							<rich:message for="editNickname" styleClass="error" />
+
+							<h:outputText value="Host:" />
+							<h:outputText id="editHost" value="#{maintainNodes.nodeEdit.host}"/>								
+							<rich:message for="editHost" styleClass="error" />
+							
+							<h:outputText value="Port:" />
+							<h:outputText id="editPort" value="#{maintainNodes.nodeEdit.port}"/>								
+							<rich:message for="editPort" styleClass="error" />
+														
+							<h:outputText value="Group:" />
+							<rich:inplaceInput id="editGroup" value="#{maintainNodes.nodeEdit.group}" styleClass="inplaceInputAncho">
+								<f:validateLongRange maximum="255"/>
+							</rich:inplaceInput>														
+							<rich:message for="editGroup" styleClass="error" />
+			    		
+				    		<h:outputText value="Last Ping:" />
+							<h:outputText id="editLastPing" value="#{maintainNodes.nodeEdit.lastPing}"/>								
+							<rich:message for="editLastPing" styleClass="error" />							
+						
+						</h:panelGrid>
+						
+						<a4j:commandLink 
+							action="#{maintainNodes.editNode}" immediate="false"
+							oncomplete="if (#{!facesContext.validationFailed}) {#{rich:component('popupEditNode')}.hide(); #{rich:component('popupMessage')}.show();}"
+							render="nodes message" 
+							value="Edit"/>
+							
+						<h:outputText value=" " />
+						<h:commandLink value="Cancel">
+							<rich:componentControl target="popupEditNode" operation="hide" />
+						</h:commandLink>
+					</h:form>
+
+				</div>
+			</rich:popupPanel>
+
+</ui:composition>
+</html>

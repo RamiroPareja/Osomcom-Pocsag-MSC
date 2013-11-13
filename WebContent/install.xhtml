@@ -1,0 +1,92 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:a4j="http://richfaces.org/a4j">
+
+<ui:composition template="WEB-INF/templates/template.xhtml">
+
+	<ui:define name="titulo">
+		<h:outputText value="Osomcom POCSAG MSC - INSTALLATION" />
+	</ui:define>
+	<ui:define name="cuerpo">
+
+		<f:event type="preRenderView" listener="#{install.checkInstallation}" />
+
+
+		<div align="center" class="poscentro">
+
+			<h1>INSTALLATION STATUS</h1>
+
+			<rich:panel header="Tables">
+				<h:form>
+					<h:panelGrid columns="3" id="panelInstallation">
+						<h:outputText value="Nodes" />
+						<h:panelGroup>
+							<h:outputText value="Created" style="color:green;"
+								rendered="#{install.nodeTableExist}" />
+							<h:outputText value="NOT CREATED" style="color:red;"
+								rendered="#{!install.nodeTableExist}" />
+						</h:panelGroup>
+						<h:panelGroup>
+							<h:commandButton value="Drop table" render="panelInstallation"
+								rendered="#{install.nodeTableExist}"
+								action="#{install.dropNodesTable}" />
+							<h:commandButton value="Create table" render="panelInstallation"
+								rendered="#{!install.nodeTableExist}"
+								action="#{install.createNodesTable}" />
+						</h:panelGroup>
+
+
+						<h:outputText value="Subscribers" />
+						<h:panelGroup>
+							<h:outputText value="Created" style="color:green;"
+								rendered="#{install.subscriberTableExist}" />
+							<h:outputText value="NOT CREATED" style="color:red;"
+								rendered="#{!install.subscriberTableExist}" />
+						</h:panelGroup>
+						<h:panelGroup>
+							<h:commandButton value="Drop table"
+								action="#{install.dropSubscribersTable}"
+								rendered="#{install.subscriberTableExist}"
+								render="panelInstallation" />
+							<h:commandButton value="Create table"
+								action="#{install.createSubscribersTable}"
+								rendered="#{!install.subscriberTableExist}"
+								render="panelInstallation" />
+						</h:panelGroup>
+						
+						<h:outputText value="Subscribers Groups" />
+						<h:panelGroup>
+							<h:outputText value="Created" style="color:green;"
+								rendered="#{install.subscribersGroupsTableExist}" />
+							<h:outputText value="NOT CREATED" style="color:red;"
+								rendered="#{!install.subscribersGroupsTableExist}" />
+						</h:panelGroup>
+						<h:panelGroup>
+							<h:commandButton value="Drop table"
+								action="#{install.dropSubscribersGroupsTable}"
+								rendered="#{install.subscribersGroupsTableExist}"
+								render="panelInstallation" />
+							<h:commandButton value="Create table"
+								action="#{install.createSubscribersGroupsTable}"
+								rendered="#{!install.subscribersGroupsTableExist}"
+								render="panelInstallation" />
+						</h:panelGroup>
+
+
+					</h:panelGrid>
+				</h:form>
+			</rich:panel>
+
+
+		</div>
+		<br />
+
+	</ui:define>
+</ui:composition>
+</html>

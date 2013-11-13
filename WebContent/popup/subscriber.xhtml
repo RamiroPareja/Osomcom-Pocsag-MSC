@@ -1,0 +1,95 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:a4j="http://richfaces.org/a4j">
+
+<ui:composition >
+	
+			<rich:popupPanel id="popupSubscriber" modal="true" autosized="true"
+				resizeable="false">
+				<div align="center">
+
+					<f:facet name="header">
+						Subscribers
+					</f:facet>
+
+					<h:form id="formSubscriber">
+
+						<div>
+							<h3>
+								<h:outputText value="Filter" />
+							</h3>
+							<h:panelGrid id="FilterGrid" columns="2">
+
+								<h:outputText value="Nickname:" />
+								<rich:inplaceInput defaultLabel="Fill to filter the list"
+									id="nicknameFilter"
+									value="#{sendMessage.subscriberFilter.nickName}"
+									onblur="document.getElementById('formSubscriber:filterSubscribersLink').click();">
+								</rich:inplaceInput>
+
+								<h:outputText value="Realname:" />
+								<rich:inplaceInput defaultLabel="Fill to filter the list"
+									id="realnameFilter"
+									value="#{sendMessage.subscriberFilter.realName}"
+									onblur="document.getElementById('formSubscriber:filterSubscribersLink').click();">
+								</rich:inplaceInput>
+
+							</h:panelGrid>
+
+							<h5>
+								<h:outputText value="Use * as wildcard" />
+							</h5>
+
+							<a4j:commandButton render="subscribers, scrollerTableSubscribers"
+								style="display:none;" id="filterSubscribersLink"
+								action="#{sendMessage.loadSubscribers}" />
+						</div>
+
+						<rich:dataTable value="#{sendMessage.subscriberList}"
+							id="subscribers" var="subscriber" rows="10">
+
+							<rich:column width="10em">
+								<f:facet name="header">
+									<h:outputText value="Nickname" />
+								</f:facet>
+								<h:outputText value="#{subscriber.nickName}" />
+							</rich:column>
+
+							<rich:column width="10em">
+								<f:facet name="header">
+									<h:outputText value="Realname" />
+								</f:facet>
+								<h:outputText value="#{subscriber.realName}" />
+							</rich:column>
+
+							<rich:column width="10em">
+								<a4j:commandLink
+									action="#{sendMessage.addSubscriberToDestinationList}"
+									oncomplete="if (#{!facesContext.validationFailed}) {#{rich:component('popupSubscriber')}.hide();}"
+									render="destinations" value="Add">
+									<f:param name="id" value="#{subscriber.id}" />
+								</a4j:commandLink>
+							</rich:column>
+
+						</rich:dataTable>
+						<rich:dataScroller id="scrollerTableSubscribers" for="subscribers"
+							render="subscribers" renderIfSinglePage="false" />
+
+						<br />
+
+						<h:commandLink value="Cancel">
+							<rich:componentControl target="popupSubscriber" operation="hide" />
+						</h:commandLink>
+					</h:form>
+
+				</div>
+			</rich:popupPanel>
+
+</ui:composition>
+</html>

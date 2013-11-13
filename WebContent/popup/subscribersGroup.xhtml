@@ -1,0 +1,65 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:a4j="http://richfaces.org/a4j">
+
+<ui:composition >
+	
+			<rich:popupPanel id="popupSubscribersGroup" modal="true"
+				autosized="true" resizeable="false">
+				<div align="center">
+
+					<f:facet name="header">
+						Subscribers Groups
+					</f:facet>
+
+					<h:form id="formSubscribersGroup">
+
+						<rich:dataTable value="#{sendMessage.subscribersGroupList}"
+							id="groups" var="group" rows="10">
+
+							<rich:column width="10em">
+								<f:facet name="header">
+									<h:outputText value="Name" />
+								</f:facet>
+								<h:outputText value="#{group.name}" />
+							</rich:column>
+
+							<rich:column width="10em">
+								<f:facet name="header">
+									<h:outputText value="Description" />
+								</f:facet>
+								<h:outputText value="#{group.description}" />
+							</rich:column>
+
+							<rich:column width="10em">
+								<a4j:commandLink
+									action="#{sendMessage.addSubscribersGroupToDestinationList}"
+									oncomplete="if (#{!facesContext.validationFailed}) {#{rich:component('popupSubscribersGroup')}.hide();}"
+									render="destinations" value="Add">
+									<f:param name="id" value="#{group.id}" />
+								</a4j:commandLink>
+							</rich:column>
+
+						</rich:dataTable>
+						<rich:dataScroller id="scrollerTableGroups" for="groups"
+							render="groups" renderIfSinglePage="false" />
+
+						<br />
+
+						<h:commandLink value="Cancel">
+							<rich:componentControl target="popupSubscribersGroup"
+								operation="hide" />
+						</h:commandLink>
+					</h:form>
+
+				</div>
+			</rich:popupPanel>
+
+</ui:composition>
+</html>

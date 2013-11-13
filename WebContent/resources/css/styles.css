@@ -1,0 +1,96 @@
+@CHARSET "UTF-8";
+
+#contenedor {
+	border: solid 2px #999999;
+	box-shadow: 2px 2px 5px #999999;
+	background: #fff;
+	position: relative;
+	display: block;
+	margin: 0 auto;
+	width: 1004px;
+	heigh: 100%;
+	min-height: 550px;
+	margin-top: 19px
+}
+
+body {
+	display: block;
+	margin: 0px;
+	padding: 0px;
+	color: #595959 !important;
+	font: normal 12px/1.9em Arial, "Bitstream Charter", serif !important;
+}
+
+.MenuPie {
+	position: relative;
+	display: block;
+	margin: 0 auto;
+	width: 1024px;
+	text-align: center
+}
+
+MenuPie span {
+	margin-left: 6px
+}
+
+.MenuPie {
+	font-size: 0.9em;
+	color: #818181;
+	padding-bottom: 0.3em;
+	padding-top: 0.3em;
+	padding-left: 1em;
+	padding-right: 1em;
+}
+
+.menu {
+	float: left;
+	width: 205px;
+	margin-left: 20px;
+	margin-top: 100px;
+}
+
+.poscentro {
+	width: 720px;
+	margin-left: 10px
+}
+
+.contenidos {
+	float: none;
+	margin-left: 235px;
+	position: relative;
+	top: 0px;
+}
+
+.rf-insl-inp {
+	width: 6em;
+	text-align: center;
+}
+
+.inplaceInputAncho {
+	width: 200px;
+	padding-left: 4px;
+}
+
+
+.nodeACTIVE {
+	color: green;
+}
+
+.nodeUNKNOW {
+	color: orange;
+}
+
+.nodeINACTIVE {
+	color: red;
+}
+
+
+button,input[type="reset"],input[type="submit"],input[type="button"] {
+	-webkit-border-radius: 3px !important;
+	width: auto;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+	margin: 5px 2px 5px 15px;
+	padding: 1px 10px 1px 10px;
+	text-align: center;
+}

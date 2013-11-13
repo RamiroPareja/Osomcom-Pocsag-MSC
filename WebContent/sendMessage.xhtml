@@ -1,0 +1,132 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:a4j="http://richfaces.org/a4j">
+
+<ui:composition template="WEB-INF/templates/template.xhtml">
+	<ui:define name="titulo">
+		<h:outputText value="Osomcom POCSAG MSC - Send message" />
+	</ui:define>
+	<ui:define name="cuerpo">
+
+		<f:event type="preRenderView" listener="#{sendMessage.load}" />
+
+
+		<div align="center" class="poscentro">
+			<h1>
+				<h:outputText value="Send message" />
+			</h1>
+
+			<ui:include src="popup/message.xhtml"/>
+			<ui:include src="popup/subscribersGroup.xhtml"/>
+			<ui:include src="popup/subscriber.xhtml"/>
+
+
+			<h:form id="sendMessageForm">
+
+				<rich:panel header="Destination">
+
+					<br />
+
+					<h:panelGroup>
+						<rich:dataTable value="#{sendMessage.message.destinationList}"
+							id="destinations" var="destination" rows="15">
+
+							<rich:column width="10em">
+								<f:facet name="header">
+									<h:outputText value="Name" />
+								</f:facet>
+								<h:outputText value="#{destination.name}" />
+							</rich:column>
+
+
+							<rich:column width="10em">
+								<f:facet name="header">
+									<h:outputText value="Type" />
+								</f:facet>
+								<h:outputText value="#{destination.type}" />
+							</rich:column>
+
+							<rich:column>
+								<h:commandLink action="#{sendMessage.deleteDestination}" immediate="true">
+									<f:param name="id" value="#{destination.id}" />
+									<f:param name="type" value="#{destination.type}" />
+									<h:graphicImage style="border:0; height:16px; width:16px;"
+										library="images" name="delete-icon.png"
+										title="Delete subscribers group" />
+								</h:commandLink>
+							</rich:column>
+
+
+						</rich:dataTable>
+						<rich:dataScroller id="scrollerTableDestinations"
+							for="destinations" render="subscribersGroups" renderIfSinglePage="false"/>
+					</h:panelGroup>
+					<br />
+					<br />
+
+					<a4j:commandButton action="#{sendMessage.loadSubscribers}"
+						immediate="true" render="formSubscriber"
+						oncomplete="#{rich:component('popupSubscriber')}.show()"
+						value="Add Subscribers" />
+
+					<h:outputText>
+					</h:outputText>
+
+					<a4j:commandButton action="#{sendMessage.loadSubscribersGroups}"
+						immediate="true" render="formSubscribersGroup"
+						oncomplete="#{rich:component('popupSubscribersGroup')}.show()"
+						value="Add Subscribers Group" />
+
+
+
+
+				</rich:panel>
+
+				<rich:panel header="Message">
+
+					<h:panelGrid id="gridEditMessage" columns="3">
+
+						<h:outputText value="Message:" />
+						<h:inputTextarea id="messageText"
+							value="#{sendMessage.message.text}" required="true" rows="4">
+							<f:validateLength maximum="60" />
+						</h:inputTextarea>
+						<rich:message for="messageText" styleClass="error" />
+
+						<h:outputText value="Type:" />
+						<h:selectOneRadio id="messageType" required="true"
+							value="#{sendMessage.message.type}">
+							<f:selectItem itemValue="ALPHA" itemLabel="ALPHA" />
+							<f:selectItem itemValue="NUMERIC" itemLabel="NUMERIC" />
+							<f:selectItem itemValue="TONE" itemLabel="TONE" />
+						</h:selectOneRadio>
+						<rich:message for="messageType" styleClass="error" />
+					</h:panelGrid>
+
+				</rich:panel>
+
+				<p>
+					<h:messages class="error" globalOnly="true" />
+				</p>
+
+				<br/>
+				
+				<a4j:commandButton action="#{sendMessage.send}" render="formSubscribersGroup message"
+					oncomplete="if (#{!facesContext.validationFailed}) {#{rich:component('popupMessage')}.show();}"
+					value="Send" />
+
+
+
+			</h:form>
+		</div>
+		<br />
+
+	</ui:define>
+</ui:composition>
+</html>

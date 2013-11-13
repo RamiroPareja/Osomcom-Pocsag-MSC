@@ -1,0 +1,49 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:a4j="http://richfaces.org/a4j" >
+
+<head>	 
+</head>
+
+<body>
+
+	<ui:composition>
+<div style="margin-bottom:12px">
+	<h:form id="lateralMenuForm">
+
+			<rich:panelMenu itemMode="server">
+			
+				<rich:panelMenuGroup label="Messaging">
+				
+		  			<rich:panelMenuItem label="Send Message" action="sendMessage" />		  			
+					
+				</rich:panelMenuGroup>
+				
+				<rich:panelMenuGroup label="Administration">
+				
+		  			<rich:panelMenuItem label="Subscribers" action="maintainSubscribers" />
+		  			<rich:panelMenuItem label="Subscribers groups" action="maintainSubscribersGroups" />
+		  			<rich:panelMenuItem label="Nodes" action="maintainNodes" />
+					
+				</rich:panelMenuGroup>
+			
+				<rich:panelMenuGroup label="Debug">
+					<rich:panelMenuItem label="Install DB" action="install" />
+					<rich:panelMenuItem label="Test Rest Nodes" action="testREST/testNODES.jsp?faces-redirect=true" />
+				</rich:panelMenuGroup>
+
+			</rich:panelMenu>
+
+		</h:form>
+	
+</div>
+	</ui:composition>
+
+</body>	    	    	
+</html>

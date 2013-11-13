@@ -1,0 +1,166 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:a4j="http://richfaces.org/a4j">
+
+<ui:composition template="WEB-INF/templates/template.xhtml">
+	<ui:define name="titulo">
+		<h:outputText value="Osomcom POCSAG MSC - Maintain Nodes" />
+	</ui:define>
+	<ui:define name="cuerpo">
+	
+		<f:event type="preRenderView" listener="#{maintainNodes.loadNodes}"/>
+		
+		<a4j:poll interval="60000" render="nodes"></a4j:poll>
+		
+		<div align="center" class="poscentro">
+			<h1>
+				<h:outputText value="Maintain Nodes" />
+			</h1>
+			
+			<ui:include src="popup/message.xhtml"/>
+
+			<ui:include src="popup/editNode.xhtml"/>
+			
+			<h:form id="maintainForm">
+								
+				<rich:panel header="Nodes">
+
+					<br />
+
+					<div>
+						<h3>
+							<h:outputText value="Filter" />
+						</h3>
+						<h:panelGrid id="FilterGrid" columns="2">
+
+							<h:outputText value="Name:" />
+							<rich:inplaceInput defaultLabel="Fill to filter the list"
+								id="nameFilter"
+								value="#{maintainNodes.nodeFilter.name}"
+								onblur="document.getElementById('maintainForm:filterNodesLink').click();">
+							</rich:inplaceInput>
+
+							<h:outputText value="Host:" />
+							<rich:inplaceInput defaultLabel="Fill to filter the list"
+								id="hostFilter"
+								value="#{maintainNodes.nodeFilter.host}"
+								onblur="document.getElementById('maintainForm:filterNodesLink').click();">
+							</rich:inplaceInput>							
+
+						</h:panelGrid>
+
+						<h5>
+							<h:outputText value="Use * as wildcard" />
+						</h5>
+
+						<a4j:commandButton render="nodes, scrollerTableNodes"
+							style="display:none;" id="filterNodesLink" action="#{maintainNodes.loadNodes}"/>
+					</div>
+
+					
+					<h:panelGroup>
+					<rich:dataTable value="#{maintainNodes.nodeList}"
+						id="nodes" var="node" rows="12">
+
+						<rich:column width="10em">
+							<f:facet name="header">
+								<h:outputText value="Name" />
+							</f:facet>
+							<h:outputText value="#{node.name}" />
+						</rich:column>
+						
+						<rich:column width="10em">
+							<f:facet name="header">
+								<h:outputText value="Protocol" />
+							</f:facet>
+							<h:outputText value="#{node.protocol}" />
+						</rich:column>						
+
+						<rich:column width="15em">
+							<f:facet name="header">
+								<h:outputText value="Host" />
+							</f:facet>
+							<h:outputText value="#{node.host}" />
+						</rich:column>
+
+						<rich:column width="5em">
+							<f:facet name="header">
+								<h:outputText value="Port" />
+							</f:facet>
+							<h:outputText value="#{node.port}" />
+						</rich:column>
+
+						<rich:column>
+							<f:facet name="header">
+								<h:outputText value="Group" />
+							</f:facet>
+							<h:outputText value="#{node.group}" />
+						</rich:column>
+
+						<rich:column>
+							<f:facet name="header">
+								<h:outputText value="Last Ping" />
+							</f:facet>
+							<h:outputText value="#{node.lastPing}" class="node#{node.state}"/>
+						</rich:column>
+
+						<ui:remove>
+<!-- 						<rich:column> -->
+<!-- 							<h:commandLink disabled="true"> -->
+<!-- 								<f:param name="id" value="#{node.id}" /> -->
+<!-- 								<h:graphicImage style="border:0; height:16px; width:16px;" library="images" -->
+<!-- 									name="message-icon.png" title="Ping the node"/> -->
+<!-- 							</h:commandLink> -->
+<!-- 						</rich:column> -->
+						</ui:remove>
+
+						<rich:column>							
+							<a4j:commandLink action="#{maintainNodes.loadNodeToEdit}"
+								immediate="true" render="formEditNode"
+								oncomplete="#{rich:component('popupEditNode')}.show()">								
+								<f:param name="id" value="#{node.id}" />
+								<h:graphicImage style="border:0; height:16px; width:16px;" library="images"
+									name="edit-icon.png" title="Edit node"/>
+							</a4j:commandLink>
+						</rich:column>
+
+						<rich:column>
+							<h:commandLink action="#{maintainNodes.deleteNode}">
+								<f:param name="id" value="#{node.id}" />
+								<h:graphicImage style="border:0; height:16px; width:16px;" library="images"
+									name="delete-icon.png" title="Delete node"/>
+							</h:commandLink>
+						</rich:column>
+
+
+					</rich:dataTable>
+					<rich:dataScroller id="scrollerTableNodes" for="nodes" render="nodes"/>
+					</h:panelGroup>
+					<br/>
+					<br/>
+					<h5><b class="nodeACTIVE">Green</b> nodes are active (seen in the last minutes)<br/>
+					<b class="nodeUNKNOW">Oranges</b> nodes have been lost recently but could be still active<br/>
+					<b class="nodeINACTIVE">Red</b> nodes are inactive (not seen in the some time)</h5>
+					
+				</rich:panel>
+
+
+
+				<p>
+					<h:messages class="error" globalOnly="true" />
+				</p>
+
+
+			</h:form>
+		</div>
+		<br />
+
+	</ui:define>
+</ui:composition>
+</html>

@@ -1,0 +1,178 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:a4j="http://richfaces.org/a4j">
+
+<ui:composition template="WEB-INF/templates/template.xhtml">
+	<ui:define name="titulo">
+		<h:outputText value="Osomcom POCSAG MSC - Maintain Subscribers" />
+	</ui:define>
+	<ui:define name="cuerpo">
+
+		<f:event type="preRenderView"
+			listener="#{maintainSubscribers.loadSubscribers}" />
+
+		<div align="center" class="poscentro">
+			<h1>
+				<h:outputText value="Maintain Subscribers" />
+			</h1>
+
+			<ui:include src="popup/message.xhtml"/>
+			<ui:include src="popup/editSubscriber.xhtml"/>
+			<ui:include src="popup/editGroups.xhtml"/>
+
+			<h:form id="maintainForm">
+
+				<rich:panel header="Subscribers">
+
+					<br />
+
+					<div>
+						<h3>
+							<h:outputText value="Filter" />
+						</h3>
+						<h:panelGrid id="FilterGrid" columns="2">
+
+							<h:outputText value="Nickname:" />
+							<rich:inplaceInput defaultLabel="Fill to filter the list"
+								id="nicknameFilter"
+								value="#{maintainSubscribers.subscriberFilter.nickName}"
+								onblur="document.getElementById('maintainForm:filterSubscribersLink').click();">
+							</rich:inplaceInput>
+
+							<h:outputText value="Realname:" />
+							<rich:inplaceInput defaultLabel="Fill to filter the list"
+								id="realnameFilter"
+								value="#{maintainSubscribers.subscriberFilter.realName}"
+								onblur="document.getElementById('maintainForm:filterSubscribersLink').click();">
+							</rich:inplaceInput>
+
+						</h:panelGrid>
+
+						<h5>
+							<h:outputText value="Use * as wildcard" />
+						</h5>
+
+						<a4j:commandButton render="subscribers, scrollerTableSubscribers"
+							style="display:none;" id="filterSubscribersLink"
+							action="#{maintainSubscribers.loadSubscribers}" />
+					</div>
+
+
+					<h:panelGroup>
+						<rich:dataTable value="#{maintainSubscribers.subscriberList}"
+							id="subscribers" var="subscriber" rows="12">
+
+							<rich:column width="10em">
+								<f:facet name="header">
+									<h:outputText value="Nickname" />
+								</f:facet>
+								<h:outputText value="#{subscriber.nickName}" />
+							</rich:column>
+
+							<rich:column width="15em">
+								<f:facet name="header">
+									<h:outputText value="Realname" />
+								</f:facet>
+								<h:outputText value="#{subscriber.realName}" />
+							</rich:column>
+
+							<rich:column width="5em">
+								<f:facet name="header">
+									<h:outputText value="RIC" />
+								</f:facet>
+								<h:outputText value="#{subscriber.RIC}" />
+							</rich:column>
+
+							<rich:column>
+								<f:facet name="header">
+									<h:outputText value="Frequency" />
+								</f:facet>
+								<h:outputText value="#{subscriber.frequency}" />
+							</rich:column>
+
+							<rich:column>
+								<f:facet name="header">
+									<h:outputText value="bauds" />
+								</f:facet>
+								<h:outputText value="#{subscriber.bauds}" />
+							</rich:column>
+
+							<rich:column>
+								<a4j:commandLink
+									action="#{maintainSubscribers.loadSubscribersGroups}"
+									immediate="true" render="formEditGroups"
+									oncomplete="#{rich:component('popupEditGroups')}.show()">
+									<f:param name="id" value="#{subscriber.id}" />
+									<h:graphicImage style="border:0; height:16px; width:16px;"
+										library="images" name="editsubscribersgroup-icon.png"
+										title="Edit groups" />
+								</a4j:commandLink>
+							</rich:column>
+
+							<rich:column>
+								<h:commandLink action="sendMessage">
+									<f:param name="id" value="#{subscriber.id}" />
+									<f:param name="preload" value="subscriber" />
+									<h:graphicImage style="border:0; height:16px; width:16px;"
+										library="images" name="message-icon.png"
+										title="Send message to subscriber" />
+								</h:commandLink>
+							</rich:column>
+
+							<rich:column>
+								<a4j:commandLink
+									action="#{maintainSubscribers.loadSubscriberToEdit}"
+									immediate="true" render="formEditSubscriber"
+									oncomplete="#{rich:component('popupEditSubscriber')}.show()">
+									<f:param name="id" value="#{subscriber.id}" />
+									<h:graphicImage style="border:0; height:16px; width:16px;"
+										library="images" name="edit-icon.png" title="Edit subscriber" />
+								</a4j:commandLink>
+							</rich:column>
+
+							<rich:column>
+								<h:commandLink action="#{maintainSubscribers.deleteSubscriber}">
+									<f:param name="id" value="#{subscriber.id}" />
+									<h:graphicImage style="border:0; height:16px; width:16px;"
+										library="images" name="delete-icon.png"
+										title="Delete subscriber" />
+								</h:commandLink>
+							</rich:column>
+
+
+						</rich:dataTable>
+						<rich:dataScroller id="scrollerTableSubscribers" for="subscribers"
+							render="subscribers" />
+					</h:panelGroup>
+					<br />
+					<br />
+
+					<a4j:commandButton
+						action="#{maintainSubscribers.loadSubscriberToCreate}"
+						immediate="true" render="formEditSubscriber"
+						oncomplete="#{rich:component('popupEditSubscriber')}.show()"
+						value="New Subscriber" />
+
+
+				</rich:panel>
+
+
+
+				<p>
+					<h:messages class="error" globalOnly="true" />
+				</p>
+
+
+			</h:form>
+		</div>
+		<br />
+
+	</ui:define>
+</ui:composition>
+</html>

@@ -1,0 +1,61 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:a4j="http://richfaces.org/a4j">
+
+<ui:composition >
+	
+			<rich:popupPanel id="popupEditSubscribersGroup" modal="true" autosized="true"
+				resizeable="false">
+				<div align="center">
+
+					<f:facet name="header">
+						Subscribers Group details
+					</f:facet>
+
+					<h:form id="formEditSubscribersGroup">
+
+						<h:panelGrid id="gridEditSubscribersGroup" columns="3">
+
+							<h:outputText value="Name:" />
+							<rich:inplaceInput id="editName" required="true" value="#{maintainSubscribersGroups.subscribersGroupEdit.name}" styleClass="inplaceInputAncho">
+								<f:validateLength minimum="4" maximum="20"/>
+							</rich:inplaceInput>							
+							<rich:message for="editName" styleClass="error" />					
+							
+							<h:outputText value="Description:" />
+							<rich:inplaceInput id="editDescription" value="#{maintainSubscribersGroups.subscribersGroupEdit.description}" styleClass="inplaceInputAncho">
+								<f:validateLength maximum="100"/>
+							</rich:inplaceInput>							
+							<rich:message for="editDescription" styleClass="error" />
+						
+						</h:panelGrid>
+						
+						<a4j:commandLink 
+							action="#{maintainSubscribersGroups.editSubscribersGroup}" immediate="false"
+							oncomplete="if (#{!facesContext.validationFailed}) {#{rich:component('popupEditSubscribersGroup')}.hide(); #{rich:component('popupMessage')}.show();}"
+							render="subscribersGroups message" 
+							value="Edit"  rendered="#{maintainSubscribersGroups.popupEditMode}"/>
+							
+							<a4j:commandLink 
+							action="#{maintainSubscribersGroups.createSubscribersGroup}" immediate="false"
+							oncomplete="if (#{!facesContext.validationFailed}) {#{rich:component('popupEditSubscribersGroup')}.hide(); #{rich:component('popupMessage')}.show();}"
+							render="subscribersGroups message" 
+							value="Create"  rendered="#{!maintainSubscribersGroups.popupEditMode}"/>
+						
+						<h:outputText value=" " />
+						<h:commandLink value="Cancel">
+							<rich:componentControl target="popupEditSubscribersGroup" operation="hide" />
+						</h:commandLink>
+					</h:form>
+
+				</div>
+			</rich:popupPanel>
+
+</ui:composition>
+</html>
