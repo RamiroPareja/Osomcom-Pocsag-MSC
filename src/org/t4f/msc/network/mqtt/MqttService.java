@@ -148,7 +148,7 @@ public class MqttService {
 	
 	public boolean sendPocsagMessageToNode(PocsagMessage message) {
 
-		String msg = message.toMqttString() + " - " + System.currentTimeMillis();
+		String msg = message.toMqttString() + "-" + System.currentTimeMillis();
 		return postMessage(msg);		
 		
 	}

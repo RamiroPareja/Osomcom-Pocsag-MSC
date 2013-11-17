@@ -46,8 +46,7 @@ public class PocsagMessage {
 	public static PocsagMessage parseMqttString(String mqttString) {
 		PocsagMessage pm = new PocsagMessage();
 		
-		Pattern p = Pattern.compile("ascii: PM:\\{(\\d+),(\\d+),(\\d+),(\\w+),(\\w+)\\} - (\\d+)");
-		Matcher m = p.matcher(mqttString);
+		Pattern p = Pattern.compile("ascii: PM:\\{(\\d+),(\\d+),(\\d+),(\\w+),([\\w\\s\\n]+)\\}-(\\d+)");		Matcher m = p.matcher(mqttString);
 		
 		if (m.find()) {
 			pm.setRIC(new Integer(m.group(1)));
